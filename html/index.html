@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="leftSide">
+            <!-- header -->
+            <div class="header">
+                <div class="userimg">
+                    <img src="./user.jpeg" alt="user-image" draggable="false">
+                </div>
+                <ul class="nav_icons">
+                    <li><ion-icon name="scan-circle-outline"></ion-icon></li>
+                    <li><ion-icon name="chatbox"></ion-icon></li>
+                    <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+                </ul>
+            </div>
+            <!-- search -->
+            <div class="search_chat">
+                <div>
+                    <input type="text" placeholder="Search or start new chat" />
+                    <ion-icon name="search-outline"></ion-icon>
+                </div>
+            </div>
+            <!-- chatlist -->
+            <div class="chatlist">
+                <div class="block active">
+                    <div class="imgbx">
+                        <img src="./ava1.jpg" alt="chat-image" draggable="false">
+                    </div>
+                    <div class="details">
+                        <div class="listHead">
+                            <h4>Dr. Lektor</h4>
+                            <p class="time">21.27</p>
+                        </div>
+                        <div class="message_p">
+                            <p>Cook with me =)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="block unread">
+                    <div class="imgbx">
+                        <img src="./ava1.jpg" alt="chat-image" draggable="false">
+                    </div>
+                    <div class="details">
+                        <div class="listHead">
+                            <h4>Dr. Lektor</h4>
+                            <p class="time">21.27</p>
+                        </div>
+                        <div class="message_p">
+                            <p>Cook with me =)</p>
+                            <b>1</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rightSide">
+            <div class="header">
+                <div class="imgText">
+                    <div class="userimg">
+                        <img src="./ava1.jpg" alt="user-image" draggable="false">
+                    </div>
+                    <h4>Dr. Lektor<br/><span>online</span></h4>
+                </div>
+                <ul class="nav_icons">
+                    <li><ion-icon name="search-outline"></ion-icon></li>
+                    <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+                </ul>
+            </div>
+
+            <!-- chatbox -->
+            <div class="chatBox">
+                <div class="message my_message">
+                    <p>Hi<br/><span>13:16</span></p>
+                </div>
+                <div class="message frnd_message">
+                    <p>Hello<br/><span>13:17</span></p>
+                </div>
+            </div>
+            
+            <!-- chat-input -->
+            <div class="chatbox_input">
+                <ion-icon name="happy-outline"></ion-icon>
+                <ion-icon name="attach-outline"></ion-icon>
+                <input type="text" placeholder="Type a message">
+                <ion-icon name="mic"></ion-icon>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body> 
+</html>
