@@ -1,9 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
+import moment from 'moment'
+
 const Message = ({ user, message }) => {
+    
     return (
-        <MessageBlock>
-            <p>{message.message}<br/><span>{message.timestamp}</span></p>
+        <MessageBlock sended={message.user === user.uid}>
+            <p>{message.message}<br/><span>
+                {message.timestamp ?  moment(message.timestamp).calendar(null, {
+    sameDay: '[]hh:mm',
+    lastDay: '[Yesterday]',
+    lastWeek: '[Last] dddd',
+    sameElse: 'DD/MM/YYYY'
+}): '...'}
+            </span></p>
         </MessageBlock>
     )
 }
@@ -13,16 +23,17 @@ export default Message
 const MessageBlock = styled.div`
     position: relative;
     display: flex;
+    justify-content: ${props => props.sended ? 'flex-end' : 'flex-start'};
     width: 100%;
     margin: 5px 0;
 
     p {
         position: relative;
         right: 0;
-        text-align: right;
+        text-align: ${props => props.sended ? 'rigth' : 'left'};
         max-width: 65%;
         padding: 12px;
-        background: #dcf8c6;
+        background: ${props => props.sended ? '#dcf8c6' : '#fff'};
         border-radius: 10px;
         font-size: 0.9em;
 
@@ -30,13 +41,14 @@ const MessageBlock = styled.div`
         content: "";
         position: absolute;
         top: 0;
-        right: -12px;
+        right: ${props => props.sended ? '-12px;' : 'auto'} -12px;
+        left: ${props => props.sended ? 'auto' : '-12px'};
         width: 20px;
         height: 20px;
         background: linear-gradient(
-            135deg,
-            #dcf8c6 0%,
-            #dcf8c6 50%,
+            ${props => props.sended ? '135deg' : '225deg'},
+            ${props => props.sended ? '#dcf8c6' : '#fff'},
+            ${props => props.sended ? '#dcf8c6' : '#fff'},
             transparent 50%,
             transparent
         );

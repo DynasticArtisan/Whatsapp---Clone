@@ -8,21 +8,23 @@ import { useCollection } from 'react-firebase-hooks/firestore'
 import Message from './Message'
 import firebase from 'firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
-
+import { getRecipientEmail } from '../utils/getRecipientEmail'
+import TimeAgo from 'timeago-react'
 const ChatScreen = ({ chat, messages }) => {
     const router = useRouter()
     const [user] = useAuthState(auth)
-
+    const recipEmail = getRecipientEmail(chat.users, user)
+    const [recipSnapshot] = useCollection(db.collection('users').where('email','==', getRecipientEmail(chat.users, user)))
     const [newMessageInput, setNewMessageInput] = useState('')
     const [messagesSnapshot] = useCollection(db.collection('chats').doc(router.query.id).collection('messages').orderBy('timestamp', 'asc'))
-
+    const recipient = recipSnapshot?.docs?.[0]?.data()
 
     const showMessages = () => {
         if(messagesSnapshot){
             return messagesSnapshot.docs.map(mess => (
                 <Message
                     key={mess.id}
-                    user={mess.data().user}
+                    user={user}
                     message={{
                         ...mess.data(),
                         timestamp: mess.data().timestamp?.toDate().getTime()
@@ -33,7 +35,7 @@ const ChatScreen = ({ chat, messages }) => {
             return JSON.parse(messages).map(mess => (
                 <Message
                 key={mess.id}
-                user={mess.user}
+                user={user}
                 message={mess}
              />
             ))
@@ -58,9 +60,23 @@ const ChatScreen = ({ chat, messages }) => {
     return (
         <>
             <Header>
-                <UserAvatar/>
+                {
+                    recipient ?
+                    <UserAvatar src={recipient.photoURL}/> :
+                    <UserAvatar>{recipEmail[0]}</UserAvatar>
+                }
                 <div className="info">
-                    <h4>Dr. Lektor<br/><span>online</span></h4>
+                    <h4>{recipEmail}<br/>
+                    { 
+                        recipSnapshot ?
+                        <span>Last seen: {
+                            recipient?.lastSeen?.toDate() ?
+                            <TimeAgo minInterval={30} datetime={recipient?.lastSeen?.toDate()}/> :
+                            'unavailable'
+                            }</span> :
+                        <span>Loading...</span>
+                    }
+                    </h4>
                 </div>
                 <div className="icons">
                     <IconButton>
