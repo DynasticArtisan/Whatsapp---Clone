@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 
 const firebaseConfig = {
-    apiKey: NEXT_PUBLIC_API_key,
+    apiKey: process.env.NEXT_PUBLIC_API_key,
     authDomain: "whatsapp-clone-fa9ff.firebaseapp.com",
     projectId: "whatsapp-clone-fa9ff",
     storageBucket: "whatsapp-clone-fa9ff.appspot.com",
