@@ -5,6 +5,7 @@ import Login from './Login'
 import Loading from '../components/Loading'
 import { useEffect } from 'react'
 import firebase from 'firebase'
+import { greetings } from '../greetings'
 
 function MyApp({ Component, pageProps }) {
   const [user, loading] = useAuthState(auth)
@@ -12,13 +13,18 @@ function MyApp({ Component, pageProps }) {
    useEffect(async ()=>{
      if(user){
        try {
-         db.collection('users').doc(user.uid).set({
-          email: user.email,
-          lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-          photoURL: user.photoURL,
-         },{
-           merge: true
-         })    
+         db.collection('users').doc(user.uid).get().then(doc => {
+           if(!doc.exists){
+            greetings(user.email) 
+           }}).then(doc => {
+        db.collection('users').doc(user.uid).set({
+            email: user.email,
+            lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+            photoURL: user.photoURL,
+           },{
+             merge: true
+           })       
+          })
        } catch (error) {
          console.log('error: ', error)
        }

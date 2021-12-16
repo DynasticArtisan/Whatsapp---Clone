@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { auth, db } from '../firebase'
 import styled from 'styled-components'
 import { Avatar, IconButton } from '@material-ui/core'
@@ -18,7 +18,7 @@ const ChatScreen = ({ chat, messages }) => {
     const [newMessageInput, setNewMessageInput] = useState('')
     const [messagesSnapshot] = useCollection(db.collection('chats').doc(router.query.id).collection('messages').orderBy('timestamp', 'asc'))
     const recipient = recipSnapshot?.docs?.[0]?.data()
-
+    const endOfMessageRef = useRef(null)
     const showMessages = () => {
         if(messagesSnapshot){
             return messagesSnapshot.docs.map(mess => (
@@ -54,8 +54,15 @@ const ChatScreen = ({ chat, messages }) => {
             user: user.uid
         });
         setNewMessageInput('');
+        scrollToBottom()
     }
 
+    const scrollToBottom = () => {
+        endOfMessageRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        })
+    }
 
     return (
         <>
@@ -91,7 +98,7 @@ const ChatScreen = ({ chat, messages }) => {
             <ChatBox>
                 {showMessages()}
 
-                <EndOfMessage/>
+                <EndOfMessage ref={endOfMessageRef}/>
             </ChatBox>
 
             <ChatInputs>
@@ -160,7 +167,9 @@ const ChatBox = styled.div`
   overflow-y: auto;
   `
 
-const EndOfMessage = styled.div``
+const EndOfMessage = styled.div`
+margin-bottom: 50px
+`;
 
 const ChatInputs = styled.form`
     position: relative;
